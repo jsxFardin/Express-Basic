@@ -1,18 +1,16 @@
-const express = require('express');
-const app = express();
-const port = 5000;
-const path = require('path')
+const express = require('express')
+const app = express()
 
-const { products } = require('./data')
+var mongoose = require('mongoose');
+var dbUrl = require('./porperties').DB_URL;
 
-app.get('/', (req, res) => {
-    res.json(products);
+/* coneect to mongodb */
+mongoose.connect(dbUrl);
+
+mongoose.connection.on('connected', () => {
+  console.log('connected to mongodb!');
 })
 
-app.all('*', (req, res) => {
-    res.status(404).send('<h1>resource not found</h1>')
-})
-
-app.listen(port, () => {
-    console.log('server is listening on port 5000...')
+app.listen(4000, () => {
+  console.log('Server is listening on port 5000....')
 })
